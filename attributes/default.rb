@@ -205,7 +205,7 @@ default['openstack']['network']['nova']['admin_username'] = 'nova'
 
 # Version for connection to nova
 # TODO: (MRV) Need to allow for this in Common.
-default['openstack']['network']['nova']['url_version'] = '/v2'
+default['openstack']['network']['nova']['url_version'] = "/#{node['openstack']['api']['nova']['version']}"
 
 # The uuid of the nova tenant
 # Nil will cause the uuid to be queried from keystone.
