@@ -1,4 +1,4 @@
 metadata
 
-cookbook 'openstack-identity',  :git => 'https://github.com/stackforge/cookbook-openstack-identity.git'
-cookbook 'openstack-common',    :git => 'https://github.com/stackforge/cookbook-openstack-common.git'
+cookbook 'openstack-identity', chef_api: :config
+cookbook 'openstack-common', chef_api: :config
