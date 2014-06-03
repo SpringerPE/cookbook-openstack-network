@@ -169,7 +169,7 @@ unless ['nicira', 'plumgrid', 'bigswitch'].include?(main_plugin)
   end
 end
 
-if node['openstack']['network']['disable_offload']
+if not node['openstack']['network']['disable_offload']
   package 'ethtool' do
     action :upgrade
     options platform_options['package_overrides']
@@ -177,6 +177,7 @@ if node['openstack']['network']['disable_offload']
 
   service 'disable-eth-offload' do
     supports restart: false, start: true, stop: false, reload: false
+    provider Chef::Provider::Service::Init::Debian
     priority(
       2 => [:start, 19]
     )
