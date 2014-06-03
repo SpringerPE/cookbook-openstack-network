@@ -63,7 +63,6 @@ if platform_family?('debian')
   # NOTE:(mancdaz):sometimes the openvswitch module does not get reloaded
   # properly when openvswitch-datapath-dkms recompiles it.  This ensures
   # that it does
-
   begin
     if resources('package[openvswitch-datapath-dkms]')
       execute '/usr/share/openvswitch/scripts/ovs-ctl force-reload-kmod' do
@@ -99,24 +98,28 @@ platform_options['neutron_openvswitch_agent_packages'].each do |pkg|
   end
 end
 
-directory '/etc/neutron/plugins/openvswitch' do
-  recursive true
-  owner node['openstack']['network']['platform']['user']
-  group node['openstack']['network']['platform']['group']
-  mode 00700
-  only_if { platform_family?('rhel') }
-end
+# Deprecated, only when openvswitch is the main_plugin (default=ml2)
+main_plugin = node['openstack']['network']['core_plugin_map'][core_plugin.split('.').last.downcase]
+if main_plugin == 'openvswitch'
+  directory '/etc/neutron/plugins/openvswitch' do
+    recursive true
+    owner node['openstack']['network']['platform']['user']
+    group node['openstack']['network']['platform']['group']
+    mode 00700
+    only_if { platform_family?('rhel') }
+  end
 
-openvswitch_endpoint = endpoint 'network-openvswitch'
-template '/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini' do
-  source 'plugins/openvswitch/ovs_neutron_plugin.ini.erb'
-  owner node['openstack']['network']['platform']['user']
-  group node['openstack']['network']['platform']['group']
-  mode 00644
-  variables(
-    local_ip: openvswitch_endpoint.host
-  )
-  only_if { platform_family?('rhel') }
+  openvswitch_endpoint = endpoint 'network-openvswitch'
+  template '/etc/neutron/plugins/openvswitch/ovs_neutron_plugin.ini' do
+    source 'plugins/openvswitch/ovs_neutron_plugin.ini.erb'
+    owner node['openstack']['network']['platform']['user']
+    group node['openstack']['network']['platform']['group']
+    mode 00644
+    variables(
+      local_ip: openvswitch_endpoint.host
+    )
+    only_if { platform_family?('rhel') }
+  end
 end
 
 service 'neutron-plugin-openvswitch-agent' do
@@ -167,7 +170,6 @@ unless ['nicira', 'plumgrid', 'bigswitch'].include?(main_plugin)
 end
 
 if node['openstack']['network']['disable_offload']
-
   package 'ethtool' do
     action :upgrade
     options platform_options['package_overrides']

@@ -47,8 +47,6 @@ default['openstack']['network']['service_name'] = 'neutron'
 default['openstack']['network']['service_type'] = 'network'
 default['openstack']['network']['description'] = 'OpenStack Networking service'
 
-default['openstack']['network']['rabbit_server_chef_role'] = 'rabbitmq-server'
-
 # Used in the Keystone authtoken middleware configuration
 default['openstack']['network']['service_tenant_name'] = 'service'
 default['openstack']['network']['service_user'] = 'neutron'
@@ -207,7 +205,7 @@ default['openstack']['network']['nova']['admin_username'] = 'nova'
 
 # Version for connection to nova
 # TODO: (MRV) Need to allow for this in Common.
-default['openstack']['network']['nova']['url_version'] = '/v2'
+default['openstack']['network']['nova']['url_version'] = "/#{node['openstack']['api']['nova']['version']}"
 
 # The uuid of the nova tenant
 # Nil will cause the uuid to be queried from keystone.
