@@ -53,6 +53,7 @@ service 'neutron-plugin-linuxbridge-agent' do
   service_name platform_options['neutron_linuxbridge_agent_service']
   supports status: true, restart: true
   action :enable
+  provider platform_options['service_provider']
   subscribes :restart, 'template[/etc/neutron/neutron.conf]'
   subscribes :restart, 'template[/etc/neutron/plugins/linuxbridge/linuxbridge_conf.ini]'
 end

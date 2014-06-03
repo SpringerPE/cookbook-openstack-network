@@ -60,6 +60,7 @@ end
 
 service 'neutron-server' do
   service_name platform_options['neutron_server_service']
+  provider platform_options['service_provider']
   supports status: true, restart: true
   action :enable
 end

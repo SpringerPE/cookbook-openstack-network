@@ -38,7 +38,7 @@ end
 service 'neutron-l3-agent' do
   service_name platform_options['neutron_l3_agent_service']
   supports status: true, restart: true
-
+  provider platform_options['service_provider']
   action :enable
   subscribes :restart, 'template[/etc/neutron/neutron.conf]'
 end

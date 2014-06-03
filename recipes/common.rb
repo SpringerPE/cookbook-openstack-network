@@ -141,7 +141,7 @@ service 'neutron-server' do
   service_name platform_options['neutron_server_service']
   supports status: true, restart: true
   ignore_failure true
-
+  provider platform_options['service_provider']
   action :nothing
 end
 

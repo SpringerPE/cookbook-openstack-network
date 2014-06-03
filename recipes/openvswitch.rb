@@ -78,6 +78,7 @@ end
 
 service 'neutron-openvswitch-switch' do
   service_name platform_options['neutron_openvswitch_service']
+  provider platform_options['service_provider']
   supports status: true, restart: true
   action [:enable, :start]
 end
@@ -119,6 +120,7 @@ end
 
 service 'neutron-plugin-openvswitch-agent' do
   service_name platform_options['neutron_openvswitch_agent_service']
+  provider platform_options['service_provider']
   supports status: true, restart: true
   action :enable
   subscribes :restart, 'template[/etc/neutron/neutron.conf]'

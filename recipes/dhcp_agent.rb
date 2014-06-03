@@ -36,7 +36,7 @@ end
 service 'neutron-dhcp-agent' do
   service_name platform_options['neutron_dhcp_agent_service']
   supports status: true, restart: true
-
+  provider platform_options['service_provider']
   action :enable
   subscribes :restart, 'template[/etc/neutron/neutron.conf]'
 end
