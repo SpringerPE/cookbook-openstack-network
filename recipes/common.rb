@@ -56,7 +56,7 @@ platform_options['neutron_packages'].each do |pkg|
   end
 end
 
-db_type = node['openstack']['db']['network']['service_type']
+db_type = node['openstack']['db']['service_type']
 platform_options["#{db_type}_python_packages"].each do |pkg|
   package pkg do
     options platform_options['package_overrides']
@@ -104,7 +104,7 @@ if node['openstack']['network']['policyfile_url']
   end
 end
 
-mq_service_type = node['openstack']['mq']['network']['service_type']
+mq_service_type = node['openstack']['mq']['service_type']
 
 if mq_service_type == 'rabbitmq'
   rabbit_hosts = rabbit_servers if node['openstack']['mq']['network']['rabbit']['ha']
@@ -113,7 +113,7 @@ elsif mq_service_type == 'qpid'
   mq_password = get_password 'user', node['openstack']['mq']['network']['qpid']['username']
 end
 
-identity_endpoint = endpoint 'identity-api'
+identity_endpoint = endpoint 'identity-api-internal'
 identity_admin_endpoint = endpoint 'identity-admin'
 auth_uri = ::URI.decode identity_endpoint.to_s
 
@@ -146,7 +146,7 @@ service 'neutron-server' do
 end
 
 # Nova interactions
-nova_endpoint = endpoint 'compute-api'
+nova_endpoint = endpoint 'compute-api-internal'
 # TODO(MRV): Need to allow for this in common.
 # Neutron will append the admin_tenant_id for these nova interaction calls,
 # remove the tenant_id so we don't end up with two of them on the url.

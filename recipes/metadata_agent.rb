@@ -24,7 +24,7 @@ include_recipe 'openstack-network::common'
 
 platform_options = node['openstack']['network']['platform']
 
-identity_endpoint = endpoint 'identity-api'
+identity_endpoint = endpoint 'identity-api-internal'
 service_pass = get_password 'service', 'openstack-network'
 metadata_secret = get_secret node['openstack']['network']['metadata']['secret_name']
 
