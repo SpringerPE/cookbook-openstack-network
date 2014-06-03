@@ -225,7 +225,8 @@ default['openstack']['network']['dhcp']['scheduler'] = 'neutron.scheduler.dhcp_a
 # to 1454 to allow for tunnel and other encapsulation overhead.  You
 # can adjust this from 1454 to 1500 if you do not want any lowering
 # of the default guest MTU.
-default['openstack']['network']['dhcp']['dhcp-option'] = '26,1454'
+default['openstack']['network']['dhcp']['dhcp-option-force'] = '26,1454'
+default['openstack']['network']['dhcp']['dhcp-log-facility'] = '/var/log/neutron/dnsmasq.log'
 
 # Number of seconds between sync of DHCP agent with Neutron API server
 default['openstack']['network']['dhcp']['resync_interval'] = 5
@@ -257,7 +258,7 @@ default['openstack']['network']['dhcp']['enable_metadata_network'] = 'False'
 default['openstack']['network']['dhcp']['dnsmasq_url'] = 'https://codeload.github.com/guns/dnsmasq/tar.gz/v2.65'
 
 # allow a wrapper to do this another way or use it's own package
-default['openstack']['network']['dhcp']['dnsmasq_compile'] = true
+default['openstack']['network']['dhcp']['dnsmasq_compile'] = false
 
 # The name of the file we will fetch
 default['openstack']['network']['dhcp']['dnsmasq_filename'] = 'v2.65.tar.gz'

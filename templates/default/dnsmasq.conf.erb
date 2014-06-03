@@ -1,7 +1,14 @@
 <%= node["openstack"]["network"]["custom_template_banner"] %>
-
+<% if node["openstack"]["network"]["dhcp"]["dhcp-option"] -%>
 dhcp-option=<%= node["openstack"]["network"]["dhcp"]["dhcp-option"] %>
-
+<% end -%>
+<% if node["openstack"]["network"]["dhcp"]["dhcp-option-force"] -%>
+dhcp-option-force=<%= node["openstack"]["network"]["dhcp"]["dhcp-option-force"] %>
+<% end -%>
+<% if node["openstack"]["network"]["dhcp"]["dhcp-log-facility"] -%>
+log-facility=<%= node["openstack"]["network"]["dhcp"]["dhcp-log-facility"] %>
+log-dhcp
+<% end -%>
 <% node["openstack"]["network"]["dhcp"]["upstream_dns_servers"].each do |dns_server| -%>
 server=<%= dns_server %>
 <% end -%>
